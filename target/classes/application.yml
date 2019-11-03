@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /mobi-v1
+#spring:
+#  data:
+#    mmongodb:
+###      authentication-database: admin
+###      username: root
+###      password: maudoden
+#      database: restaurant_db
+#      port: 27017
+#      host: localhost
+##uri: mongodb://localhost:27017/rest_db
