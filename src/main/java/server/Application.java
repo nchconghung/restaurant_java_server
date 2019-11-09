@@ -10,14 +10,12 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-
 @SpringBootApplication(scanBasePackages = {
 //        "server",
-        "server.Controller",
+        "server.Controllers",
         "server.DAO",
-        "server.Model"
+        "server.Models",
+        "server.Businesses"
 })
 public class Application {
 

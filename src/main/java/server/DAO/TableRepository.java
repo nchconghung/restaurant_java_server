@@ -1,13 +1,13 @@
 package server.DAO;
 
-import server.Model.TableModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import server.Models.TableModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface TableRepository  extends MongoRepository<TableModel,String> {
-    List<TableModel> findByName(String name);
-    List<TableModel> findByDepartment(String departmentId);
+    Page<TableModel> findByName(String name, Pageable pageable);
+    Page<TableModel> findByDepartment(String departmentId, Pageable pageable);
 }
