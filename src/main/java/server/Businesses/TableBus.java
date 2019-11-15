@@ -1,15 +1,19 @@
 package server.Businesses;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import server.DAO.TableRepository;
 import server.Models.TableModel;
+import server.Models.Response.*;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,29 +25,37 @@ public class TableBus {
     @Autowired
     private TableRepository tableRepository;
 
-    public List<TableObject> getList(Map<String,String[]> params){
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    public List<TableResp> getList(Map<String,String[]> params){
         int page = Integer.parseInt(params.get("pg_page")[0]),
             size = Integer.parseInt(params.get("pg_size")[0]);
 
-        List<TableObject> list = new ArrayList<>();
+        List<TableResp> list = new ArrayList<>();
         Page<TableModel> data = null;
         Pageable pageable;
 
         if (params.get("search_department") != null) {
-            String departmentId = params.get("search_department")[0];
+            String department = params.get("search_department")[0];
+            ObjectId departmentId = new ObjectId(department);
             pageable = PageRequest.of(page,size, Sort.by("name").ascending());
             data = tableRepository.findByDepartment(departmentId,pageable);
         } else if (params.get("search_name") != null) {
             String name = params.get("search_name")[0];
             pageable = PageRequest.of(page,size,Sort.by("department").ascending());
             data = tableRepository.findByName(name,pageable);
+        } else if (params.get("search_status") != null){
+            int status = Integer.parseInt(params.get("search_status")[0]);
+            pageable = PageRequest.of(page,size, Sort.by("department").ascending().and(Sort.by("name").ascending()));
+            data = tableRepository.findByStatus(status,pageable);
         } else {
-            pageable = PageRequest.of(page,size,Sort.by("department").ascending().and(Sort.by("name").ascending()));
+        	pageable = PageRequest.of(page,size,Sort.by("department").ascending().and(Sort.by("name").ascending()));
             data = tableRepository.findAll(pageable);
         }
 
         for (TableModel entity : data.toList()) {
-            TableObject tableObject = new TableObject(entity.getId(),
+            TableResp tableObject = new TableResp(entity.getId(),
                     entity.getDepartment(),
                     entity.getStatus(),
                     entity.getName());
@@ -53,17 +65,33 @@ public class TableBus {
         return list;
     }
 
-    private class TableObject{
-        public String _id;
-        public String department;
-        public int status;
-        public String name;
+    public TableResp updateStatus(Map<String,String[]> params){
+        String id = params.get("_id")[0];
+        int status = Integer.parseInt(params.get("status")[0]);
+        
+        boolean flat = tableRepository.updateStatus(id, status);
+        
+        if (flat) {
+        	TableModel tableModel =  tableRepository.findById(id).get();
+        	if (tableModel == null) {
+        		return null;
+        	}
 
-        public TableObject(String _id, String department, int status, String name) {
-            this._id = _id;
-            this.department = department;
-            this.status = status;
-            this.name = name;
+        	return new TableResp(tableModel.getId(),tableModel.getDepartment(),tableModel.getStatus(),tableModel.getName());
         }
+        
+        return null;
     }
+
+	public TableResp getTableResp(String tableId) {
+		TableModel tableModel = tableRepository.findById(tableId).get();
+		
+		if (tableModel != null) {
+			TableResp result = new TableResp(tableModel.getId(),tableModel.getDepartment(),
+											 tableModel.getStatus(),tableModel.getName());
+			return result;
+		}
+		
+		return null;
+	}
 }

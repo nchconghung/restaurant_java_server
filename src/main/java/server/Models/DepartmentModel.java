@@ -15,16 +15,16 @@ public class DepartmentModel {
     private String hospital;
 
     @Field(value = "updated_at")
-    private Date updatedAt;
+    private int updatedAt;
 
     @Field(value = "created_at")
-    private Date createdAt;
+    private int createdAt;
 
     @Field(value = "is_active")
-    private boolean isActive;
+    private int isActive;
 
     @Field(value = "is_deleted")
-    private boolean isDeleted;
+    private int isDeleted;
 
     @Field(value = "address")
     private String address;
@@ -54,35 +54,35 @@ public class DepartmentModel {
         this.hospital = hospital;
     }
 
-    public Date getUpdatedAt() {
+    public int getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(int updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public Date getCreatedAt() {
+    public int getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(int createdAt) {
         this.createdAt = createdAt;
     }
 
-    public boolean isActive() {
+    public int isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(int active) {
         isActive = active;
     }
 
-    public boolean isDeleted() {
+    public int isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(int deleted) {
         isDeleted = deleted;
     }
 

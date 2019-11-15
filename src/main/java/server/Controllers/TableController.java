@@ -8,6 +8,8 @@ import server.Businesses.CheckParamsBus;
 import server.Businesses.TableBus;
 import server.DAO.TableRepository;
 import server.Models.TableModel;
+import server.Models.Response.TableResp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,15 +34,11 @@ public class TableController {
 
     @Autowired
     private CheckParamsBus checkParamsBus;
+    
     @RequestMapping(path="/index",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String,Object>> index(HttpServletRequest httpRequest
-//                                                           @RequestParam(value = "search_department",defaultValue = "") String departmentId,
-//                                                           @RequestParam(value = "search_name",defaultValue = "") String name,
-//                                                           @RequestParam(value = "pg_page",required = true) Integer page,
-//                                                           @RequestParam(value = "pg_size",required = true) Integer size
-    ){
+    public ResponseEntity<Map<String,Object>> index(HttpServletRequest httpRequest){
         if (!checkParamsBus.checkParamTableIndex(httpRequest)){
-            return new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Map<String,Object> resp = new HashMap<String,Object>();
@@ -51,5 +49,16 @@ public class TableController {
         return new ResponseEntity<Map<String,Object>>(resp, HttpStatus.OK);
     }
 
+    @RequestMapping(path="/status",method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TableResp> updateTableStatus(HttpServletRequest httpRequest){
+        if (!checkParamsBus.checkParamsUpdateTableStatus(httpRequest)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
+        Map<String,String[]> params = httpRequest.getParameterMap();
+        
+        TableResp resp = tableBus.updateStatus(params);
+        
+        return new ResponseEntity<TableResp>(resp,HttpStatus.OK); 
+    }
 }

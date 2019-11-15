@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3d915fcb-be39-4476-add6-f10c5c9b962e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restServer.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Controller/TableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Controllers/TableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/DAO/TableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/DAO/TableRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Model/DepartmentModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Models/DepartmentModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Model/HospitalModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Models/HospitalModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Model/TableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/Models/TableModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/Model/test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Controller/TableController$TableObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Controller/TableController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/DAO/TableRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/server/DAO/TableRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Model/DepartmentModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Model/HospitalModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Model/TableModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/server/Model/test.class" beforeDir="false" />
-    </list>
+    <list default="true" id="3d915fcb-be39-4476-add6-f10c5c9b962e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +133,7 @@
       <updated>1572683511205</updated>
       <workItem from="1572683514134" duration="19190000" />
       <workItem from="1573306000255" duration="2475000" />
-      <workItem from="1573308866856" duration="8984000" />
+      <workItem from="1573308866856" duration="9183000" />
     </task>
     <servers />
   </component>
