@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import server.Models.Response.BillResp;
 import server.Models.Response.DepartmentResp;
 import server.Models.Response.OrderResp;
 import server.Models.Response.OrderSessionResp;
+import server.Models.Response.OrderWebResp;
 import server.Models.Response.ProductTempResp;
 import server.Models.Response.TableResp;
 import server.Models.Response.UserResp;
@@ -116,8 +118,42 @@ public class OrderBus {
 		return flat;
 	}
 	
+	// Web Admin
+	
+	public List<OrderWebResp> getListWebAdmin(int startDate, int endDate, String employeeSearch, int total, String billID,
+			int pageNo, int pageSize) {
+		
+		List<OrderModel> modelList = orderRepository.findWithManyFilterForWeb(startDate, endDate, employeeSearch, total, billID, pageNo, pageSize);
+		
+		List<OrderWebResp> respList = new ArrayList<>();
+		
+		for (OrderModel order : modelList) {
+			respList.add(converteOrderModelToOrderWebResp(order));
+		}
+		return respList;
+	}
+	
 	/////////////////////////////////////////////////////////////////
 
+	private OrderWebResp converteOrderModelToOrderWebResp(OrderModel entity) {
+		List<BillResp> bills  = converteBillModelListToOrderBillRespList(entity.getBills());
+		TableResp table = tableBus.getTableResp(entity.getTable());
+		List<OrderSessionResp> sessions = converteSessionModelListToSessionRespList(entity.getSessions());
+		DepartmentResp department = departmentBus.getDepartmentResp(entity.getDepartment());
+		
+		UserResp creator = userBus.getUserResp(entity.getCreator());
+		
+		OrderWebResp orderResp = new OrderWebResp(entity.getId(),bills,
+				table,entity.getCreatedAt(),
+				entity.getUpdateAt(),entity.getStatus(),
+				sessions,department,
+				entity.getTotal(),entity.getDiscountPercent(),
+				entity.getDiscountCode(),entity.getID(),
+				creator);
+		
+		return orderResp;
+	}
+	
 	private OrderResp converteOrderModelToOrderResp(OrderModel entity) {
 		List<BillResp> bills  = converteBillModelListToOrderBillRespList(entity.getBills());
 		TableResp table = tableBus.getTableResp(entity.getTable());
@@ -231,4 +267,7 @@ public class OrderBus {
 		}
 		return result;
 	}
+
+
+
 }

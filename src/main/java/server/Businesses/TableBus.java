@@ -9,11 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+
+import server.DAO.DepartmentRepository;
 import server.DAO.TableRepository;
+import server.Models.DepartmentModel;
 import server.Models.TableModel;
 import server.Models.Response.*;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,9 @@ public class TableBus {
 
     @Autowired
     private TableRepository tableRepository;
+    
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -93,5 +98,34 @@ public class TableBus {
 		}
 		
 		return null;
+	}
+	
+	public TableWebResponse convertToTableWebResp(TableModel tableModel) {
+		DepartmentModel department = departmentRepository.findById(tableModel.getDepartment()).get();
+		TableWebResponse result = new TableWebResponse(tableModel.getId(),department,
+				 tableModel.getStatus(),tableModel.getName());
+		return result;
+	}
+	
+	public TableWebResponse create(String name, String department) {
+		TableModel data =  tableRepository.create(name,department);
+		if (data == null) return null;
+		
+		return convertToTableWebResp(data);
+	}
+
+	public TableWebResponse update(String name, String department, String id) {
+		TableModel data = tableRepository.update(name,department, id);
+		if (data == null) return null;
+		return convertToTableWebResp(data);
+	}
+
+	public boolean delete(String id) {
+		try {
+			tableRepository.deleteById(id);
+			return true;
+		} catch (Exception x) {
+			return false;
+		}
 	}
 }

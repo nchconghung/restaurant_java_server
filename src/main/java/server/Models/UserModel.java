@@ -1,6 +1,7 @@
 package server.Models;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -67,6 +68,7 @@ public class UserModel {
 	private String fullName;
 
 	@Field("password")
+	@TextIndexed
 	private String password;
 	
 	@Field("username")

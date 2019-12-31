@@ -1,4 +1,4 @@
-package server.Controllers;
+package server.Controllers.Mobile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import server.Models.Temporary.OrderTemporary;
 import server.Models.Temporary.SessionAddTemporary;
 
 @RestController
-@RequestMapping(path="/table_order")
+@RequestMapping(path="/mobi-v1/table_order")
 public class OrderController {
 	
 	@Autowired

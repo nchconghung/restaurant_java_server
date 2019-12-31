@@ -1,32 +1,84 @@
 package server.DAO;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.BooleanOperators.And;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.client.result.UpdateResult;
 
-import lombok.extern.java.Log;
 import server.Models.BillModel;
 import server.Models.OrderModel;
 import server.Models.OrderSessionModel;
 import server.Models.TableModel;
+import server.Models.UserModel;
 
 public class OrderRepositoryImpl implements OrderRepositoryCustom{
 	
 	@Autowired
 	MongoTemplate mongoTemplate;
-
+	
+	@Autowired
+	UserRepository userRepository;
+	
 	@Override
 	public String create(OrderModel order) {
 		OrderModel create = mongoTemplate.insert(order);
 		
 		return create.getId();
+	}
+	
+	public List<OrderModel> findWithManyFilterForWeb(int startDate,int endDate,String employeeSearch,
+													int total,String billId,int pageNo,int pageSize){
+		Query query = new Query();
+		Criteria criteria = new Criteria();
+		// Thêm điều kiên cho ngày từ startDate đến endDate 
+		if (startDate >= 0) {
+			if (endDate >= 0)
+				query.addCriteria(Criteria.where("created_at").gte(startDate).lte(endDate));
+			else 
+				query.addCriteria(Criteria.where("created_at").gte(startDate));
+		} else {
+			query.addCriteria(Criteria.where("created_at").lte(endDate));
+		}
+		
+		// Thêm điều kiện tìm kiếm người tạo
+		if (!employeeSearch.isEmpty()) {
+			List<UserModel> users = userRepository.findByNameFTS(employeeSearch);
+			List<ObjectId> userIds = new ArrayList<>();
+			for (UserModel user : users) {
+				userIds.add(new ObjectId(user.getId()));
+			}
+			query.addCriteria(Criteria.where("creator").in(userIds));
+		}
+		
+		// Thêm điều kiện tổng tiền
+		if (total >= 0) {
+			query.addCriteria(Criteria.where("total").is(total));
+		}
+		
+		// Thêm điều kiện billId 
+		if (!billId.isEmpty()) {
+			ObjectId _orderId = new ObjectId(billId);
+			query.addCriteria(Criteria.where("_id").is(_orderId));
+		}
+		
+        Pageable pageable = PageRequest.of(pageNo,pageSize);
+        query.with(pageable);
+        List<OrderModel> data = mongoTemplate.find(query,OrderModel.class);
+        System.out.println(query.toString());
+		return data;
 	}
 
 	@Override

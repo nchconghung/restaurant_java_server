@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import server.Models.ProductModel;
 
 @Repository
-public interface ProductRepository extends MongoRepository<ProductModel,String>{
+public interface ProductRepository extends MongoRepository<ProductModel,String>,ProductRepositoryCustom{
 	@Query("{name: ?0}")
 	Page<ProductModel> findByName(String name,Pageable pageable);
 	

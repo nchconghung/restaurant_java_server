@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import server.DAO.ProductRepository;
+import server.Models.CategoryModel;
 import server.Models.ProductModel;
 import server.Models.TableModel;
 import server.Models.Response.CategoryResp;
@@ -89,5 +90,40 @@ public class ProductBus {
 		}
 		
 		return 0;
+	}
+
+	public ProductResp create(String imgUrl, String name, int price, String category,
+			String describe) {
+		ProductModel entity = productRepository.create(imgUrl,name,price,category,describe);
+		if (entity == null) return null;
+		CategoryResp cate = categoryBus.getCategoryRespById(entity.getCategory());
+		
+		return new ProductResp(entity.getId(),cate,
+							  entity.getCreatedAt(),"type",
+							  "unit",entity.getDiscountPercent(),
+							  entity.getPrice(),entity.getImage(),
+							  entity.getDesc(),entity.getName());
+	}
+
+	public ProductResp update(String imgUrl, String name, int price, String category, String describe, String id) {
+		ProductModel entity = productRepository.update(imgUrl,name,price,category,describe,id);
+		if (entity == null) return null;
+		
+		CategoryResp cate = categoryBus.getCategoryRespById(entity.getCategory());
+		
+		return new ProductResp(entity.getId(),cate,
+							  entity.getCreatedAt(),"type",
+							  "unit",entity.getDiscountPercent(),
+							  entity.getPrice(),entity.getImage(),
+							  entity.getDesc(),entity.getName());
+	}
+
+	public boolean delete(String id) {
+		try {
+			productRepository.deleteById(id);
+			return true;
+		} catch (Exception x) {
+			return false;
+		}
 	}
 }

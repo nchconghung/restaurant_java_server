@@ -1,8 +1,4 @@
-package server.Controllers;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+package server.Controllers.Mobile;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +16,7 @@ import server.Businesses.TableStatisticBus;
 import server.Models.Response.TableStatisticResp;
 
 @RestController
-@RequestMapping(path="/table_statistics")
+@RequestMapping(path="/mobi-v1/table_statistics")
 public class TableStatisticController {
 	
 	@Autowired

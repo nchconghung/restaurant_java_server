@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 import server.Models.CategoryModel;
 
 @Repository
-public interface CategoryRepository extends MongoRepository<CategoryModel,String>{
-
+public interface CategoryRepository extends MongoRepository<CategoryModel,String>,CategoryRepositoryCustom{
 }

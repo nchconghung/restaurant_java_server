@@ -7,7 +7,7 @@
     <groupId>restServer</groupId>
     <artifactId>restServer</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+	
     <parent>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
             <groupId>org.springframework.boot</groupId>
@@ -17,6 +17,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
@@ -52,12 +53,13 @@
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
 		    <version>1.18.10</version>
 		    <scope>provided</scope>
-		</dependency>	
+		</dependency>
+		 -->	
     </dependencies>
     <build>
         <plugins>
